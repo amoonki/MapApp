@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		254D460319F86D3800E549C3 /* MAP.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 254D460219F86D3800E549C3 /* MAP.jpg */; };
+		254D460519F8711000E549C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254D460419F8711000E549C3 /* Main.storyboard */; };
 		B206B7D619F439870062304A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7D519F439870062304A /* AppDelegate.swift */; };
 		B206B7D819F439870062304A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7D719F439870062304A /* ViewController.swift */; };
-		B206B7DB19F439870062304A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B206B7D919F439870062304A /* Main.storyboard */; };
 		B206B7DD19F439870062304A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B206B7DC19F439870062304A /* Images.xcassets */; };
 		B206B7E019F439870062304A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B206B7DE19F439870062304A /* LaunchScreen.xib */; };
 		B206B7EC19F439870062304A /* MapAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7EB19F439870062304A /* MapAppTests.swift */; };
@@ -26,11 +27,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		254D460219F86D3800E549C3 /* MAP.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = MAP.jpg; sourceTree = "<group>"; };
+		254D460419F8711000E549C3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B206B7D019F439870062304A /* MapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B206B7D419F439870062304A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B206B7D519F439870062304A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B206B7D719F439870062304A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B206B7DA19F439870062304A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B206B7DC19F439870062304A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B206B7DF19F439870062304A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B206B7E519F439870062304A /* MapAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,9 +58,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		254D45FF19F86BE800E549C3 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				254D460219F86D3800E549C3 /* MAP.jpg */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
 		B206B7C719F439870062304A = {
 			isa = PBXGroup;
 			children = (
+				254D45FF19F86BE800E549C3 /* resources */,
 				B206B7D219F439870062304A /* MapApp */,
 				B206B7E819F439870062304A /* MapAppTests */,
 				B206B7D119F439870062304A /* Products */,
@@ -77,9 +88,9 @@
 		B206B7D219F439870062304A /* MapApp */ = {
 			isa = PBXGroup;
 			children = (
+				254D460419F8711000E549C3 /* Main.storyboard */,
 				B206B7D519F439870062304A /* AppDelegate.swift */,
 				B206B7D719F439870062304A /* ViewController.swift */,
-				B206B7D919F439870062304A /* Main.storyboard */,
 				B206B7DC19F439870062304A /* Images.xcassets */,
 				B206B7DE19F439870062304A /* LaunchScreen.xib */,
 				B206B7D319F439870062304A /* Supporting Files */,
@@ -192,9 +203,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B206B7DB19F439870062304A /* Main.storyboard in Resources */,
+				254D460319F86D3800E549C3 /* MAP.jpg in Resources */,
 				B206B7E019F439870062304A /* LaunchScreen.xib in Resources */,
 				B206B7DD19F439870062304A /* Images.xcassets in Resources */,
+				254D460519F8711000E549C3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,14 +248,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		B206B7D919F439870062304A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B206B7DA19F439870062304A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B206B7DE19F439870062304A /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -405,6 +409,7 @@
 				B206B7F119F439870062304A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B206B7F219F439870062304A /* Build configuration list for PBXNativeTarget "MapAppTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +418,7 @@
 				B206B7F419F439870062304A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
