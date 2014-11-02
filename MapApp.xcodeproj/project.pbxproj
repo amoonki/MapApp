@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		254D460319F86D3800E549C3 /* MAP.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 254D460219F86D3800E549C3 /* MAP.jpg */; };
 		254D460519F8711000E549C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254D460419F8711000E549C3 /* Main.storyboard */; };
 		B206B7D619F439870062304A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7D519F439870062304A /* AppDelegate.swift */; };
 		B206B7D819F439870062304A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7D719F439870062304A /* ViewController.swift */; };
 		B206B7DD19F439870062304A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B206B7DC19F439870062304A /* Images.xcassets */; };
 		B206B7E019F439870062304A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B206B7DE19F439870062304A /* LaunchScreen.xib */; };
 		B206B7EC19F439870062304A /* MapAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7EB19F439870062304A /* MapAppTests.swift */; };
+		B21B98CA1A06B41300C53276 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B98C91A06B41300C53276 /* Node.swift */; };
+		B22E90D419F995D300AF6F16 /* MAP.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B22E90D319F995D300AF6F16 /* MAP.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,7 +28,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		254D460219F86D3800E549C3 /* MAP.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = MAP.jpg; sourceTree = "<group>"; };
 		254D460419F8711000E549C3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B206B7D019F439870062304A /* MapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B206B7D419F439870062304A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -38,6 +38,8 @@
 		B206B7E519F439870062304A /* MapAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B206B7EA19F439870062304A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B206B7EB19F439870062304A /* MapAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAppTests.swift; sourceTree = "<group>"; };
+		B21B98C91A06B41300C53276 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		B22E90D319F995D300AF6F16 /* MAP.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MAP.jpg; path = ../MAP.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +63,7 @@
 		254D45FF19F86BE800E549C3 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				254D460219F86D3800E549C3 /* MAP.jpg */,
+				B22E90D319F995D300AF6F16 /* MAP.jpg */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -94,6 +96,7 @@
 				B206B7DC19F439870062304A /* Images.xcassets */,
 				B206B7DE19F439870062304A /* LaunchScreen.xib */,
 				B206B7D319F439870062304A /* Supporting Files */,
+				B21B98C91A06B41300C53276 /* Node.swift */,
 			);
 			path = MapApp;
 			sourceTree = "<group>";
@@ -203,7 +206,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				254D460319F86D3800E549C3 /* MAP.jpg in Resources */,
+				B22E90D419F995D300AF6F16 /* MAP.jpg in Resources */,
 				B206B7E019F439870062304A /* LaunchScreen.xib in Resources */,
 				B206B7DD19F439870062304A /* Images.xcassets in Resources */,
 				254D460519F8711000E549C3 /* Main.storyboard in Resources */,
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B21B98CA1A06B41300C53276 /* Node.swift in Sources */,
 				B206B7D819F439870062304A /* ViewController.swift in Sources */,
 				B206B7D619F439870062304A /* AppDelegate.swift in Sources */,
 			);

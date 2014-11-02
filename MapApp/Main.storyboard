@@ -20,11 +20,12 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <gestureRecognizers/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="-36" y="8" width="443" height="800"/>
+                                    <rect key="frame" x="-35" y="5" width="443" height="800"/>
                                 </variation>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="9f7-FU-X8W" appends="YES" id="WWR-49-Uex"/>
                                     <outletCollection property="gestureRecognizers" destination="avt-5R-l5S" appends="YES" id="bjQ-uY-3q9"/>
+                                    <outletCollection property="gestureRecognizers" destination="aZu-X6-F8N" appends="YES" id="3dh-Ip-rrs"/>
                                 </connections>
                             </imageView>
                         </subviews>
@@ -44,17 +45,22 @@
                         <outlet property="mapView" destination="ADK-ws-7uM" id="7DI-er-HkY"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="9f7-FU-X8W">
-                    <connections>
-                        <action selector="handlePan:" destination="vXZ-lx-hvc" id="kIa-1Z-bQB"/>
-                    </connections>
-                </panGestureRecognizer>
                 <pinchGestureRecognizer id="avt-5R-l5S">
                     <connections>
                         <action selector="handlePinch:" destination="vXZ-lx-hvc" id="VCD-o3-kY6"/>
                     </connections>
                 </pinchGestureRecognizer>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="9f7-FU-X8W">
+                    <connections>
+                        <action selector="handlePan:" destination="vXZ-lx-hvc" id="0t9-yd-AKa"/>
+                    </connections>
+                </panGestureRecognizer>
+                <tapGestureRecognizer id="aZu-X6-F8N">
+                    <connections>
+                        <action selector="handleTap:" destination="vXZ-lx-hvc" id="d4e-nC-VCu"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
         </scene>
     </scenes>
