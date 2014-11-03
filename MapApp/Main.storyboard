@@ -16,11 +16,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MAP.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ADK-ws-7uM">
+                            <imageView contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map-1.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ADK-ws-7uM">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <gestureRecognizers/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="-35" y="5" width="443" height="800"/>
+                                    <rect key="frame" x="-33" y="5" width="443" height="800"/>
                                 </variation>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="9f7-FU-X8W" appends="YES" id="WWR-49-Uex"/>
@@ -65,6 +65,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="MAP.jpg" width="3300" height="5100"/>
+        <image name="map-1.jpg" width="3300" height="5100"/>
     </resources>
 </document>
