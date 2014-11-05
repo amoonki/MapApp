@@ -20,5 +20,4 @@ class Node {
     func addNeighbor(nodes: [Node]) {
         neighbors += nodes
     }
-    
 }

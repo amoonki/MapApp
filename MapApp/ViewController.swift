@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Galen Long. All rights reserved.
 //
 
+// TODO: ask Emily how many pixels = 1 meter
+
 import UIKit
 
 class ViewController: UIViewController {
@@ -80,24 +82,30 @@ class ViewController: UIViewController {
         let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
         button.frame = CGRect(x: node.point.x-2.5, y: node.point.y-2.5, width:5, height:5)
         button.backgroundColor = UIColor.greenColor()
+        
+        // TODO: add edges on single click
+        // have to store previously clicked node (and delete it if you click somewhere that's not a node)
+        
+        // TODO: change to removing on double, NOT single, click
         button.addTarget(self, action: "removeNode:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        // adding to subview jerks map view back to center - why?
+        // TODO: immediately pan back to current position after adding a button to avoid jerking back to center
         mapView.addSubview(button)
+        
         nodeButtonDict[button] = node
         
         // prints list of nodes so far
-        for node in nodes{
+        // TODO: change to print nodes from dictionary
+        for node in nodes {
             print(node.point)
             print(", ")
         }
-        println()
+        println("\n")
     }
     
+    
     func removeNode(sender: UIButton!) {
-        // todo: will remove node associated with button from the node list
-        // issues: how will it know which node to remove? create custom UIView from UIButton that contains the node?
-        println("Node clicked")
+        println("Removed node")
         let node = nodeButtonDict[sender]
         if (node != nil){
             // remove node from dictionary -> node can no longer be referenced and will be deleted?
