@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+
     @IBOutlet weak var mapView: UIImageView!
     
     // set panning boundaries
@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     var bottomBoundary: CGFloat = 710
     
     var nodes: [Node] = []
+
+    var nodeButtonDict = [UIButton: Node]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,12 +78,13 @@ class ViewController: UIViewController {
         
         // draws node as green rectangle on map
         let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        button.frame = CGRect(x: node.point.x-5, y: node.point.y-5, width:5, height:5)
+        button.frame = CGRect(x: node.point.x-2.5, y: node.point.y-2.5, width:5, height:5)
         button.backgroundColor = UIColor.greenColor()
         button.addTarget(self, action: "removeNode:", forControlEvents: UIControlEvents.TouchUpInside)
         
         // adding to subview jerks map view back to center - why?
         mapView.addSubview(button)
+        nodeButtonDict[button] = node
         
         // prints list of nodes so far
         for node in nodes{
@@ -95,6 +98,12 @@ class ViewController: UIViewController {
         // todo: will remove node associated with button from the node list
         // issues: how will it know which node to remove? create custom UIView from UIButton that contains the node?
         println("Node clicked")
+        let node = nodeButtonDict[sender]
+        if (node != nil){
+            // remove node from dictionary -> node can no longer be referenced and will be deleted?
+            nodeButtonDict[sender] = nil
+        }
+        sender.removeFromSuperview()
     }
     
 }
