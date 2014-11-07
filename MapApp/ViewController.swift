@@ -20,9 +20,12 @@ class ViewController: UIViewController {
     var rightBoundary: CGFloat = 375
     var bottomBoundary: CGFloat = 710
     
-    var nodes: [Node] = []
-
+    // dictionary to map buttons with corresponding node
     var nodeButtonDict = [UIButton: Node]()
+    // var to store node clicked previously (if no edge has been established for this node yet)
+    var previouslyClickedNode: Node? = nil
+    // dictionary to store pairs of nodes and the weight of their edges
+    var edgeDict = [(Node?, Node), Double?]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +79,6 @@ class ViewController: UIViewController {
     @IBAction func handleTap(recognizer : UITapGestureRecognizer) {
         // creates node object, adds to list of nodes
         let node = Node(point: recognizer.locationOfTouch(0, inView: mapView))
-        nodes += [node]
         
         // draws node as green rectangle on map
         let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
@@ -84,10 +86,39 @@ class ViewController: UIViewController {
         button.backgroundColor = UIColor.greenColor()
         
         // TODO: add edges on single click
-        // have to store previously clicked node (and delete it if you click somewhere that's not a node)
+        // have to store previously clicked node (and delete it if you click somewhere that's not a node) <-- the section in 
+        // parenthesis is redundant - createEdge method is not called if not clicked on a button (Linh)
         
-        // TODO: change to removing on double, NOT single, click
-        button.addTarget(self, action: "removeNode:", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "createEdge:", forControlEvents: UIControlEvents.TouchDown)
+        // TODO: change to removing on double, NOT single, click // not yet implemented (Linh)
+        // Obj-C codes
+        /* #pragma mark Actions
+        - (void) singleTapOnButton:(id)sender
+        {
+            label.text = @"Single Tap";
+            }
+            
+            - (void) doubleTapOnButton:(id)sender
+        {
+            label.text = @"Double Tap";
+        }
+        
+        #pragma mark Button UIControl Actions
+        - (void) touchDown:(id)sender
+        {
+            NSLog(@"Touch Down");
+            // give it 0.2 sec for second touch
+            [self performSelector:@selector(singleTapOnButton:) withObject:sender afterDelay:0.2];
+            }
+            
+            - (void) touchDownRepeat:(id)sender
+        {
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTapOnButton:) object:sender];
+            NSLog(@"Touch Down Repeat");
+            [self doubleTapOnButton:sender];
+        }        button.addTarget(self, action: "removeNode:", forControlEvents: UIControlEvents.TouchDownRepeat)
+        */
+        
         
         // TODO: immediately pan back to current position after adding a button to avoid jerking back to center
         mapView.addSubview(button)
@@ -96,7 +127,7 @@ class ViewController: UIViewController {
         
         // prints list of nodes so far
         // TODO: change to print nodes from dictionary
-        for node in nodes {
+        for node in nodeButtonDict.values {
             print(node.point)
             print(", ")
         }
@@ -112,6 +143,17 @@ class ViewController: UIViewController {
             nodeButtonDict[sender] = nil
         }
         sender.removeFromSuperview()
+    }
+    
+    func createEdge(sender: UIButton!){
+        println("created edge")
+        if let node = nodeButtonDict[sender]{
+            if (previouslyClickedNode == nil){
+                previouslyClickedNode = node
+            } else {
+                edgeDict[(previouslyClickedNode, node)] = 1.0
+            }
+        }
     }
     
 }
