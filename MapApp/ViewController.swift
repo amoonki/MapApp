@@ -24,8 +24,8 @@ class ViewController: UIViewController {
     var nodeButtonDict = [UIButton: Node]()
     // var to store node clicked previously (if no edge has been established for this node yet)
     var previouslyClickedNode: Node? = nil
-    // dictionary to store pairs of nodes and the weight of their edges
-    var edgeDict = [(Node?, Node), Double?]()
+    // dictionary to store an edge and its weight
+    var edgeDict = [Edge, Double]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,8 +86,7 @@ class ViewController: UIViewController {
         button.backgroundColor = UIColor.greenColor()
         
         // TODO: add edges on single click
-        // have to store previously clicked node (and delete it if you click somewhere that's not a node) <-- the section in 
-        // parenthesis is redundant - createEdge method is not called if not clicked on a button (Linh)
+        // have to store previously clicked node (and delete it if you click somewhere that's not a node)
         
         button.addTarget(self, action: "createEdge:", forControlEvents: UIControlEvents.TouchDown)
         // TODO: change to removing on double, NOT single, click // not yet implemented (Linh)
@@ -146,12 +145,14 @@ class ViewController: UIViewController {
     }
     
     func createEdge(sender: UIButton!){
+        var test: Double = 1.0
         println("created edge")
         if let node = nodeButtonDict[sender]{
             if (previouslyClickedNode == nil){
                 previouslyClickedNode = node
             } else {
-                edgeDict[(previouslyClickedNode, node)] = 1.0
+                let newEdge = Edge(node1: previouslyClickedNode!, node2: node)
+                edgeDict[newEdge] = 1.0
             }
         }
     }
