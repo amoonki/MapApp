@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Galen Long. All rights reserved.
 //
 
-// TODO: ask Emily how many pixels = 1 meter
+// todo: ask Emily how many pixels = 1 meter
 
 import UIKit
 
@@ -20,12 +20,16 @@ class ViewController: UIViewController {
     var rightBoundary: CGFloat = 375
     var bottomBoundary: CGFloat = 710
     
+    // when true, removes a node when node is clicked
+    // when false, adds an edge when two nodes are clicked
+    var removeNodeOrAddEdge: Bool = false;
+    
     // dictionary to map buttons with corresponding node
     var nodeButtonDict = [UIButton: Node]()
-    // var to store node clicked previously (if no edge has been established for this node yet)
+    
     var previouslyClickedNode: Node? = nil
     // dictionary to store an edge and its weight
-    var edgeDict = [Edge, Double]()
+    var edgeWeightDict = [Edge: Double]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,76 +89,73 @@ class ViewController: UIViewController {
         button.frame = CGRect(x: node.point.x-2.5, y: node.point.y-2.5, width:5, height:5)
         button.backgroundColor = UIColor.greenColor()
         
-        // TODO: add edges on single click
-        // have to store previously clicked node (and delete it if you click somewhere that's not a node)
-        
-        button.addTarget(self, action: "createEdge:", forControlEvents: UIControlEvents.TouchDown)
-        // TODO: change to removing on double, NOT single, click // not yet implemented (Linh)
-        // Obj-C codes
-        /* #pragma mark Actions
-        - (void) singleTapOnButton:(id)sender
-        {
-            label.text = @"Single Tap";
-            }
-            
-            - (void) doubleTapOnButton:(id)sender
-        {
-            label.text = @"Double Tap";
+        // click on a node either removes it or adds an edge to prev clicked node
+        if (removeNodeOrAddEdge) {
+            button.addTarget(self, action: "removeNode:", forControlEvents: UIControlEvents.TouchUpInside)
+        } else {
+            button.addTarget(self, action: "createEdge:", forControlEvents: UIControlEvents.TouchUpInside)
         }
         
-        #pragma mark Button UIControl Actions
-        - (void) touchDown:(id)sender
-        {
-            NSLog(@"Touch Down");
-            // give it 0.2 sec for second touch
-            [self performSelector:@selector(singleTapOnButton:) withObject:sender afterDelay:0.2];
-            }
-            
-            - (void) touchDownRepeat:(id)sender
-        {
-            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTapOnButton:) object:sender];
-            NSLog(@"Touch Down Repeat");
-            [self doubleTapOnButton:sender];
-        }        button.addTarget(self, action: "removeNode:", forControlEvents: UIControlEvents.TouchDownRepeat)
-        */
-        
-        
-        // TODO: immediately pan back to current position after adding a button to avoid jerking back to center
         mapView.addSubview(button)
-        
         nodeButtonDict[button] = node
         
         // prints list of nodes so far
-        // TODO: change to print nodes from dictionary
+        print("Nodes: ")
         for node in nodeButtonDict.values {
             print(node.point)
             print(", ")
         }
         println("\n")
+        
+        // resets previously clicked node
+        previouslyClickedNode = nil;
     }
-    
     
     func removeNode(sender: UIButton!) {
         println("Removed node")
         let node = nodeButtonDict[sender]
         if (node != nil){
-            // remove node from dictionary -> node can no longer be referenced and will be deleted?
             nodeButtonDict[sender] = nil
         }
         sender.removeFromSuperview()
     }
     
-    func createEdge(sender: UIButton!){
-        var test: Double = 1.0
-        println("created edge")
-        if let node = nodeButtonDict[sender]{
-            if (previouslyClickedNode == nil){
-                previouslyClickedNode = node
-            } else {
-                let newEdge = Edge(node1: previouslyClickedNode!, node2: node)
-                edgeDict[newEdge] = 1.0
-            }
+    
+    func createEdge(sender: UIButton!) {
+        // if no node previously clicked, store clicked node
+        if (previouslyClickedNode == nil) {
+            previouslyClickedNode = nodeButtonDict[sender]
         }
+        // else, create edge between nodes
+        else {
+            var n1: Node = nodeButtonDict[sender]!
+            var n2: Node = previouslyClickedNode!
+            n1.addNeighbor(n2)
+            n2.addNeighbor(n1)
+            var d: Double = distance(n1.point, p2: n2.point)
+            edgeWeightDict[Edge(n1: n1, n2: n2)] = d;
+            previouslyClickedNode = nil;
+            
+            // prints list of edges so far
+            print("Edges: ")
+            for (edge, weight) in edgeWeightDict {
+                print(edge.n1.point)
+                print(", ")
+                print(edge.n2.point)
+                print(" = ")
+                print(weight)
+                println()
+            }
+            println("\n")
+        }
+    }
+    
+    
+    func distance(p1: CGPoint, p2: CGPoint) -> Double {
+        // sqrt((x2 - x1)^2 + (y2 - y1)^2)
+        var x: Double = pow(Double(p1.x) - Double(p2.x), 2)
+        var y: Double = pow(Double(p1.y) - Double(p2.y), 2)
+        return sqrt(x + y)
     }
     
 }

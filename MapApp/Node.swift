@@ -9,7 +9,12 @@
 import Foundation
 import UIKit
 
-class Node {
+// define hashing equality
+func ==(lhs: Node, rhs: Node) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+class Node : Hashable {
     var point: CGPoint
     var neighbors: [Node] = []
     
@@ -17,7 +22,15 @@ class Node {
         self.point = point
     }
     
-    func addNeighbor(nodes: [Node]) {
-        neighbors += nodes
+    func addNeighbor(node: Node) {
+        neighbors.append(node)
     }
+
+    // make Node hashable
+    var hashValue: Int {
+        get {
+            return "\(self.point.x),\(self.point.y)".hashValue
+        }
+    }
+
 }
