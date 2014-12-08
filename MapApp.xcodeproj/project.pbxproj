@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		254D460519F8711000E549C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254D460419F8711000E549C3 /* Main.storyboard */; };
 		25A30BAA1A08203200CA90DE /* map-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 25A30BA91A08203200CA90DE /* map-1.jpg */; };
+		AC21AFA41A36335900577DE6 /* pathFinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC21AFA31A36335900577DE6 /* pathFinding.swift */; };
+		AC21AFA61A36436B00577DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC21AFA51A36436B00577DE6 /* CoreLocation.framework */; };
 		B206B7D619F439870062304A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7D519F439870062304A /* AppDelegate.swift */; };
 		B206B7D819F439870062304A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7D719F439870062304A /* ViewController.swift */; };
 		B206B7DD19F439870062304A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B206B7DC19F439870062304A /* Images.xcassets */; };
@@ -31,6 +33,8 @@
 /* Begin PBXFileReference section */
 		254D460419F8711000E549C3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		25A30BA91A08203200CA90DE /* map-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "map-1.jpg"; sourceTree = "<group>"; };
+		AC21AFA31A36335900577DE6 /* pathFinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pathFinding.swift; sourceTree = "<group>"; };
+		AC21AFA51A36436B00577DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B206B7D019F439870062304A /* MapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B206B7D419F439870062304A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B206B7D519F439870062304A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC21AFA61A36436B00577DE6 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +78,7 @@
 		B206B7C719F439870062304A = {
 			isa = PBXGroup;
 			children = (
+				AC21AFA51A36436B00577DE6 /* CoreLocation.framework */,
 				254D45FF19F86BE800E549C3 /* resources */,
 				B206B7D219F439870062304A /* MapApp */,
 				B206B7E819F439870062304A /* MapAppTests */,
@@ -100,6 +106,7 @@
 				B206B7D319F439870062304A /* Supporting Files */,
 				B21B98C91A06B41300C53276 /* Node.swift */,
 				B294800A1A195C17008BE911 /* Edge.swift */,
+				AC21AFA31A36335900577DE6 /* pathFinding.swift */,
 			);
 			path = MapApp;
 			sourceTree = "<group>";
@@ -178,6 +185,7 @@
 				TargetAttributes = {
 					B206B7CF19F439870062304A = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = L9QGW5U43X;
 					};
 					B206B7E419F439870062304A = {
 						CreatedOnToolsVersion = 6.0;
@@ -230,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC21AFA41A36335900577DE6 /* pathFinding.swift in Sources */,
 				B21B98CA1A06B41300C53276 /* Node.swift in Sources */,
 				B206B7D819F439870062304A /* ViewController.swift in Sources */,
 				B294800B1A195C17008BE911 /* Edge.swift in Sources */,
@@ -348,7 +357,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = MapApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -358,7 +369,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = MapApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
