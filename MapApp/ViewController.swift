@@ -7,11 +7,13 @@
 //
 
 // todo: ask Emily how many pixels = 1 meter
+// todo: add in geolocation to find current point on map
 
 import UIKit
 
 class ViewController: UIViewController {
 
+    // change to ScrollView, get rid of pan and pinch functions
     @IBOutlet weak var mapView: UIImageView!
     
     // set panning boundaries
@@ -19,6 +21,15 @@ class ViewController: UIViewController {
     var leftBoundary: CGFloat = 0
     var rightBoundary: CGFloat = 375
     var bottomBoundary: CGFloat = 710
+    
+    // display these on screen
+    var nodes = [
+        Node(point: CGPoint(x: 221.174884249296, y: 418.856713540855)),
+        Node(point: CGPoint(x: 223.689176439299, y: 390.906497867527)),
+        Node(point: CGPoint(x: 232.55393552395, y: 351.070079518988)),
+        Node(point: CGPoint(x: 254.01157507044, y: 367.48842492956)),
+        Node(point: CGPoint(x: 226.215149253875, y: 373.308887259314))
+    ]
     
     // when true, removes a node when node is clicked
     // when false, adds an edge when two nodes are clicked
@@ -33,7 +44,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        drawExistingNodes()
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,14 +68,10 @@ class ViewController: UIViewController {
         if (topLeftX + translation.x < leftBoundary
             && topLeftY + translation.y < topBoundary
             && bottomRightX + translation.x > rightBoundary
-            && bottomRightY + translation.y > bottomBoundary)
-        {
+            && bottomRightY + translation.y > bottomBoundary) {
             recognizer.view!.center = desiredCenter
-            //println("ok!")
-        } else {
-            //println("oh no!")
         }
-        
+    
         // don't compound translation with multiple calls for same pan
         recognizer.setTranslation(CGPointZero, inView: self.view)
     }
@@ -84,12 +91,42 @@ class ViewController: UIViewController {
         // creates node object, adds to list of nodes
         let node = Node(point: recognizer.locationOfTouch(0, inView: mapView))
         
+        createButtonForNode(node)
+        
+        // todo: print nodes in code friendly format
+        // prints list of nodes so far
+        /*
+        var i = nodeButtonDict.count
+        for node in nodeButtonDict.values {
+            i--
+            print("Node(point: CGPoint(x: ")
+            print(node.point.x)
+            print(", y: ")
+            print(node.point.y)
+            if (i > 0) {
+                print(")),\n")
+            } else {
+                print("))\n")
+            }
+        }
+        println("\n")
+        */
+        
+        // prints most recent node for Tish
+        println(node.point)
+        println()
+        
+        // resets previously clicked node
+        previouslyClickedNode = nil;
+    }
+    
+    func createButtonForNode(node: Node) {
         // draws node as green rectangle on map
         let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        button.frame = CGRect(x: node.point.x-2.5, y: node.point.y-2.5, width:5, height:5)
+        button.frame = CGRect(x: node.point.x-1.25, y: node.point.y-1.25, width:2.5, height:2.5)
         button.backgroundColor = UIColor.greenColor()
         
-        // click on a node either removes it or adds an edge to prev clicked node
+        // clicking on a node either removes it or adds an edge to prev clicked node
         if (removeNodeOrAddEdge) {
             button.addTarget(self, action: "removeNode:", forControlEvents: UIControlEvents.TouchUpInside)
         } else {
@@ -98,17 +135,12 @@ class ViewController: UIViewController {
         
         mapView.addSubview(button)
         nodeButtonDict[button] = node
-        
-        // prints list of nodes so far
-        print("Nodes: ")
-        for node in nodeButtonDict.values {
-            print(node.point)
-            print(", ")
+    }
+    
+    func drawExistingNodes() {
+        for node in nodes {
+            createButtonForNode(node)
         }
-        println("\n")
-        
-        // resets previously clicked node
-        previouslyClickedNode = nil;
     }
     
     func removeNode(sender: UIButton!) {
@@ -118,6 +150,9 @@ class ViewController: UIViewController {
             nodeButtonDict[sender] = nil
         }
         sender.removeFromSuperview()
+        
+        // todo: remove edge associated with node
+        // todo: remove line representing edge
     }
     
     
@@ -135,6 +170,7 @@ class ViewController: UIViewController {
             var d: Double = distance(n1.point, p2: n2.point)
             edgeWeightDict[Edge(n1: n1, n2: n2)] = d;
             previouslyClickedNode = nil;
+            
             
             // prints list of edges so far
             print("Edges: ")
