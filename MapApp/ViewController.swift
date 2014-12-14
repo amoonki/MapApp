@@ -10,11 +10,63 @@
 // todo: add in geolocation to find current point on map
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,CLLocationManagerDelegate {
 
+<<<<<<< HEAD
     // change to ScrollView, get rid of pan and pinch functions
+=======
+    let locationManager = CLLocationManager()
+    
+    //Have Lat and Long be global.
+    //Default is Facilities Management
+    var latitude :CLLocationDegrees = 42.312521
+    var longitude :CLLocationDegrees = -72.639737
+    
+    var initialLat :CGFloat = 42.312521
+    var initialLong :CGFloat = -72.639737
+    
+    var coordx :CGFloat =  235.839038689627
+    var coordy :CGFloat = 608.919720229753
+    
+    let xChangeWithLongitude :CGFloat = 33944.3292149
+    let yChangeWithLatitude : CGFloat = 608.919720229753
+    
+>>>>>>> 8f392a3d6ed509202927a9f0bba3bc8e1f3c995e
     @IBOutlet weak var mapView: UIImageView!
+    
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        
+        println("Entered the function")
+        
+        //NOTE:
+        //The CLGeocoder class provides services for converting between a coordinate (specified as a latitude and longitude) and the user-friendly representation of that coordinate.
+        longitude = manager.location.coordinate.longitude
+        latitude = manager.location.coordinate.latitude
+        
+        println("Assignment happended")
+        println(longitude)
+        println(latitude)
+        
+        //add node here as well
+        var changeInLatitude: CGFloat = initialLat - 42.312521
+        var changeInLongitude: CGFloat = initialLong - (-72.639737)
+        
+        coordx = coordx + (changeInLongitude * xChangeWithLongitude)
+        coordy = coordy + (changeInLatitude * yChangeWithLatitude)
+        
+        let userLocation2 = Node(point: CGPoint(x: coordx,y:coordy))
+        // draws node as green rectangle on map
+        let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        button.frame = CGRect(x: userLocation2.point.x-2.5, y: userLocation2.point.y-2.5, width:5, height:5)
+        button.backgroundColor = UIColor.redColor()
+        
+        mapView.addSubview(button)
+        
+    }
+    
     
     // set panning boundaries
     var topBoundary: CGFloat = 0
@@ -44,7 +96,33 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         drawExistingNodes()
+        
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        println("inside viewDidLoad")
+        println(longitude)
+        println(latitude)
+        
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestWhenInUseAuthorization()
+        //new for iOS8. We may add a description as to why we would like to add a user's description
+        self.locationManager.startUpdatingLocation()
+        
+        let userLocation = Node(point: CGPoint(x: coordx,y:coordy))
+        // draws node as green rectangle on map
+        let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        button.frame = CGRect(x: userLocation.point.x-2.5, y: userLocation.point.y-2.5, width:5, height:5)
+        button.backgroundColor = UIColor.blueColor()
+        mapView.addSubview(button)
+        
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestWhenInUseAuthorization()
+        //new for iOS8. We may add a description as to why we would like to add a user's description
+        self.locationManager.startUpdatingLocation()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -135,12 +213,26 @@ class ViewController: UIViewController {
         
         mapView.addSubview(button)
         nodeButtonDict[button] = node
+<<<<<<< HEAD
     }
     
     func drawExistingNodes() {
         for node in nodes {
             createButtonForNode(node)
         }
+=======
+        
+        // prints list of nodes so far
+        //print("Nodes: ")
+        //for node in nodeButtonDict.values {
+        print(node.point)
+          //  print(", ")
+        //}
+        //println("\n")
+        
+        // resets previously clicked node
+        previouslyClickedNode = nil;
+>>>>>>> 8f392a3d6ed509202927a9f0bba3bc8e1f3c995e
     }
     
     func removeNode(sender: UIButton!) {
