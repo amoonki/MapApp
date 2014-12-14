@@ -14,9 +14,6 @@ import CoreLocation
 
 class ViewController: UIViewController,CLLocationManagerDelegate {
 
-<<<<<<< HEAD
-    // change to ScrollView, get rid of pan and pinch functions
-=======
     let locationManager = CLLocationManager()
     
     //Have Lat and Long be global.
@@ -33,7 +30,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     let xChangeWithLongitude :CGFloat = 33944.3292149
     let yChangeWithLatitude : CGFloat = 608.919720229753
     
->>>>>>> 8f392a3d6ed509202927a9f0bba3bc8e1f3c995e
     @IBOutlet weak var mapView: UIImageView!
     
     
@@ -213,26 +209,23 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         
         mapView.addSubview(button)
         nodeButtonDict[button] = node
-<<<<<<< HEAD
     }
     
     func drawExistingNodes() {
         for node in nodes {
             createButtonForNode(node)
         }
-=======
         
         // prints list of nodes so far
         //print("Nodes: ")
         //for node in nodeButtonDict.values {
-        print(node.point)
+        //print(node.point)
           //  print(", ")
         //}
         //println("\n")
         
         // resets previously clicked node
         previouslyClickedNode = nil;
->>>>>>> 8f392a3d6ed509202927a9f0bba3bc8e1f3c995e
     }
     
     func removeNode(sender: UIButton!) {
