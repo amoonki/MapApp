@@ -13,6 +13,35 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController,CLLocationManagerDelegate {
+    
+    @IBOutlet weak var mapView: UIImageView!
+    
+    // when true, removes a node when node is clicked
+    // when false, adds an edge when two nodes are clicked
+    var removeNodeOrAddEdge: Bool = false;
+    
+    // set panning boundaries
+    var topBoundary: CGFloat = 0
+    var leftBoundary: CGFloat = 0
+    var rightBoundary: CGFloat = 375
+    var bottomBoundary: CGFloat = 710
+    
+    // get node-id dict made with dev tool
+    var nodeIDdict = Nodes().nodes
+    
+    // dictionary to map buttons with corresponding node
+    var nodeIDButtonDict = [UIButton: Int]()
+    
+    var previouslyClickedNode: Int? = nil
+    
+    // dict of node ids and a list of ids of their neighbors
+    var nodeIDEdgeDict = Nodes().edges
+    
+    // dictionary to store an edge and its weight
+    //var edgeWeightDict = [Edge: Double]()
+    
+    
+    
 
     let locationManager = CLLocationManager()
     
@@ -30,7 +59,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     let xChangeWithLongitude :CGFloat = 33944.3292149
     let yChangeWithLatitude : CGFloat = 608.919720229753
     
-    @IBOutlet weak var mapView: UIImageView!
+    
     
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
@@ -63,37 +92,11 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         
     }
     
-    
-    // set panning boundaries
-    var topBoundary: CGFloat = 0
-    var leftBoundary: CGFloat = 0
-    var rightBoundary: CGFloat = 375
-    var bottomBoundary: CGFloat = 710
-    
-    // display these on screen
-    var nodes = [
-        Node(point: CGPoint(x: 221.174884249296, y: 418.856713540855)),
-        Node(point: CGPoint(x: 223.689176439299, y: 390.906497867527)),
-        Node(point: CGPoint(x: 232.55393552395, y: 351.070079518988)),
-        Node(point: CGPoint(x: 254.01157507044, y: 367.48842492956)),
-        Node(point: CGPoint(x: 226.215149253875, y: 373.308887259314))
-    ]
-    
-    // when true, removes a node when node is clicked
-    // when false, adds an edge when two nodes are clicked
-    var removeNodeOrAddEdge: Bool = false;
-    
-    // dictionary to map buttons with corresponding node
-    var nodeButtonDict = [UIButton: Node]()
-    
-    var previouslyClickedNode: Node? = nil
-    // dictionary to store an edge and its weight
-    var edgeWeightDict = [Edge: Double]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         drawExistingNodes()
+        setUpEdges()
         
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -161,30 +164,17 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         recognizer.scale = 1
     }
     
+    
     @IBAction func handleTap(recognizer : UITapGestureRecognizer) {
         // creates node object, adds to list of nodes
         let node = Node(point: recognizer.locationOfTouch(0, inView: mapView))
         
-        createButtonForNode(node)
         
-        // todo: print nodes in code friendly format
-        // prints list of nodes so far
-        /*
-        var i = nodeButtonDict.count
-        for node in nodeButtonDict.values {
-            i--
-            print("Node(point: CGPoint(x: ")
-            print(node.point.x)
-            print(", y: ")
-            print(node.point.y)
-            if (i > 0) {
-                print(")),\n")
-            } else {
-                print("))\n")
-            }
-        }
-        println("\n")
-        */
+        var id = nodeIDButtonDict.count
+        //createButtonForNode(node, id: id)
+        //nodeIDdict[id] = node
+        
+        printNodes()
         
         // prints most recent node for Tish
         println(node.point)
@@ -194,7 +184,23 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         previouslyClickedNode = nil;
     }
     
-    func createButtonForNode(node: Node) {
+    func printNodes() {
+        // prints list of nodes in code friendly format
+        var i = -1
+        for id in nodeIDButtonDict.values {
+            var point: CGPoint = nodeIDdict[id]!.point
+            i++
+            print("\(i): Node(point: CGPoint(x: \(point.x), y: \(point.y)))")
+            if (i < nodeIDdict.count-1) {
+                print(",\n")
+            } else {
+                print("\n")
+            }
+        }
+        println("\n")
+    }
+    
+    func createButtonForNode(node: Node, id: Int) {
         // draws node as green rectangle on map
         let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
         button.frame = CGRect(x: node.point.x-1.25, y: node.point.y-1.25, width:2.5, height:2.5)
@@ -208,31 +214,37 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         }
         
         mapView.addSubview(button)
-        nodeButtonDict[button] = node
+        
+        // add button with id
+        nodeIDButtonDict[button] = id
     }
     
     func drawExistingNodes() {
-        for node in nodes {
-            createButtonForNode(node)
+        var i = 0
+        for node in nodeIDdict.values {
+            createButtonForNode(node, id: i)
+            i++
         }
-        
-        // prints list of nodes so far
-        //print("Nodes: ")
-        //for node in nodeButtonDict.values {
-        //print(node.point)
-          //  print(", ")
-        //}
-        //println("\n")
-        
-        // resets previously clicked node
-        previouslyClickedNode = nil;
+    }
+    
+    func setUpEdges() {
+        for (headId, ids) in nodeIDEdgeDict {
+            var head: Node = nodeIDdict[headId]!
+            for tailId in ids {
+                var tail: Node = nodeIDdict[tailId]!
+                // will this work?
+                head.addNeighbor(tail)
+                nodeIDdict[headId] = head
+            }
+        }
     }
     
     func removeNode(sender: UIButton!) {
         println("Removed node")
-        let node = nodeButtonDict[sender]
+        let id = nodeIDButtonDict[sender]
+        let node = nodeIDdict[id!]
         if (node != nil){
-            nodeButtonDict[sender] = nil
+            nodeIDButtonDict[sender] = nil
         }
         sender.removeFromSuperview()
         
@@ -242,32 +254,90 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     
     func createEdge(sender: UIButton!) {
+        for (id, node) in nodeIDdict {
+            println("\(id), \(node.neighbors)")
+        }
+        
+        
         // if no node previously clicked, store clicked node
         if (previouslyClickedNode == nil) {
-            previouslyClickedNode = nodeButtonDict[sender]
+            previouslyClickedNode = nodeIDButtonDict[sender]
         }
         // else, create edge between nodes
         else {
-            var n1: Node = nodeButtonDict[sender]!
-            var n2: Node = previouslyClickedNode!
-            n1.addNeighbor(n2)
-            n2.addNeighbor(n1)
-            var d: Double = distance(n1.point, p2: n2.point)
-            edgeWeightDict[Edge(n1: n1, n2: n2)] = d;
+            var n1: Int = nodeIDButtonDict[sender]!
+            var n2: Int = previouslyClickedNode!
+            
             previouslyClickedNode = nil;
             
+            // if clicked on same node, don't add edge
+            if n1 == n2 {
+                return
+            }
+            
+            /* add to edge dict */
+            
+            var n1ids: [Int] = []
+            if nodeIDEdgeDict[n1] != nil {
+                // if already in list, don't add it
+                if (find(nodeIDEdgeDict[n1]!, n2) != nil) {
+                    return
+                }
+                n1ids = nodeIDEdgeDict[n1]! + [n2]
+            } else {
+                n1ids = [n2]
+            }
+            
+            var n2ids: [Int] = []
+            if nodeIDEdgeDict[n2] != nil {
+                n2ids = nodeIDEdgeDict[n2]! + [n1]
+            } else {
+                n2ids = [n1]
+            }
+            
+            nodeIDEdgeDict[n1] = n1ids
+            nodeIDEdgeDict[n2] = n2ids
+            
+            /* add to node's list of neighbors */
+            
+            var n1neighbors: [Node] = []
+            for id in n1ids {
+                n1neighbors += [nodeIDdict[id]!]
+            }
+            
+            var n2neighbors: [Node] = []
+            for id in n2ids {
+                n2neighbors += [nodeIDdict[id]!]
+            }
+            
+            nodeIDdict[n1]!.neighbors = n1neighbors
+            nodeIDdict[n2]!.neighbors = n2neighbors
+            
+            /* color clicked node red */
+            
+            sender.backgroundColor = UIColor.redColor()
+            
+            /*
+            var d: Double = distance(n1.point, p2: n2.point)
+            edgeWeightDict[Edge(n1: n1, n2: n2)] = d;
+            */
             
             // prints list of edges so far
-            print("Edges: ")
-            for (edge, weight) in edgeWeightDict {
-                print(edge.n1.point)
-                print(", ")
-                print(edge.n2.point)
-                print(" = ")
-                print(weight)
-                println()
+            var i = 0
+            for (id, ids) in nodeIDEdgeDict {
+                print("\(id): \(ids)")
+                if i < nodeIDEdgeDict.count - 1 {
+                    print(",\n")
+                } else {
+                    print("\n")
+                }
+                i++
             }
-            println("\n")
+            println("\n\n\n\n")
+            
+            
+            
+            
         }
     }
     
