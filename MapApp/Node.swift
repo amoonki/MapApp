@@ -16,7 +16,10 @@ func ==(lhs: Node, rhs: Node) -> Bool {
 
 class Node : Hashable {
     var point: CGPoint
+    var parent: Int = -1
     var neighbors: [Node] = []
+    
+    
     
     init(point: CGPoint) {
         self.point = point
@@ -32,5 +35,10 @@ class Node : Hashable {
             return "\(self.point.x),\(self.point.y)".hashValue
         }
     }
+    
+    func setParent(parent: Int){
+        self.parent = parent
+    }
+    
 
 }
