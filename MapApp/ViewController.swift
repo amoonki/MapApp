@@ -1,3 +1,4 @@
+
 import UIKit
 import CoreLocation
 
@@ -208,6 +209,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func handleTap(recognizer : UITapGestureRecognizer) {
+        // debugging
+        //println(recognizer.locationOfTouch(0, inView: mapView))
+        
         // click on map adds node
         let node = Node(point: recognizer.locationOfTouch(0, inView: mapView))
         
@@ -321,12 +325,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         var considerNode: Node = lastNode
         
         // follow each node's parent, color them
-        do {
+        while (considerNode.parent != nil) {
             var btn: UIButton = nodeIDButtonDict[considerNode.id]!
             btn.setImage(buttonImage, forState: .Normal)
             previousPath.append(considerNode.id)
             considerNode = considerNode.parent!
-        } while (considerNode.parent != nil)
+        }
         
         (nodeIDButtonDict[considerNode.id]!).setImage(buttonImage, forState: .Normal)
         previousPath.append(considerNode.id)
