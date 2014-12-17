@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		254D460519F8711000E549C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254D460419F8711000E549C3 /* Main.storyboard */; };
-		25A30BAA1A08203200CA90DE /* map-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 25A30BA91A08203200CA90DE /* map-1.jpg */; };
 		AC21AFA61A36436B00577DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC21AFA51A36436B00577DE6 /* CoreLocation.framework */; };
-		AC813AB51A3FC47C008C6031 /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC813AB41A3FC47C008C6031 /* Nodes.swift */; };
+		AC813AB51A3FC47C008C6031 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC813AB41A3FC47C008C6031 /* Graph.swift */; };
 		AC813AB71A3FD58A008C6031 /* Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC813AB61A3FD58A008C6031 /* Temp.swift */; };
 		AC813AB91A3FE8FC008C6031 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC813AB81A3FE8FC008C6031 /* Queue.swift */; };
 		B206B7D619F439870062304A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7D519F439870062304A /* AppDelegate.swift */; };
@@ -20,6 +19,7 @@
 		B206B7EC19F439870062304A /* MapAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206B7EB19F439870062304A /* MapAppTests.swift */; };
 		B21B98CA1A06B41300C53276 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B98C91A06B41300C53276 /* Node.swift */; };
 		B294800B1A195C17008BE911 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B294800A1A195C17008BE911 /* Edge.swift */; };
+		B2CA05551A42126C0041EAE5 /* map-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2CA05541A42126C0041EAE5 /* map-1.jpg */; };
 		B2F7307E1A420B0800FDA73B /* button_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F7307C1A420B0800FDA73B /* button_transparent.png */; };
 		B2F7307F1A420B0800FDA73B /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F7307D1A420B0800FDA73B /* button.png */; };
 /* End PBXBuildFile section */
@@ -36,9 +36,8 @@
 
 /* Begin PBXFileReference section */
 		254D460419F8711000E549C3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		25A30BA91A08203200CA90DE /* map-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "map-1.jpg"; sourceTree = "<group>"; };
 		AC21AFA51A36436B00577DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		AC813AB41A3FC47C008C6031 /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
+		AC813AB41A3FC47C008C6031 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		AC813AB61A3FD58A008C6031 /* Temp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temp.swift; sourceTree = "<group>"; };
 		AC813AB81A3FE8FC008C6031 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		B206B7D019F439870062304A /* MapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +51,7 @@
 		B206B7EB19F439870062304A /* MapAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAppTests.swift; sourceTree = "<group>"; };
 		B21B98C91A06B41300C53276 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		B294800A1A195C17008BE911 /* Edge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
+		B2CA05541A42126C0041EAE5 /* map-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "map-1.jpg"; sourceTree = "<group>"; };
 		B2F7307C1A420B0800FDA73B /* button_transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_transparent.png; path = ../../Downloads/button_transparent.png; sourceTree = "<group>"; };
 		B2F7307D1A420B0800FDA73B /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button.png; path = ../../Downloads/button.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,9 +78,9 @@
 		254D45FF19F86BE800E549C3 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				B2CA05541A42126C0041EAE5 /* map-1.jpg */,
 				B2F7307C1A420B0800FDA73B /* button_transparent.png */,
 				B2F7307D1A420B0800FDA73B /* button.png */,
-				25A30BA91A08203200CA90DE /* map-1.jpg */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 				B21B98C91A06B41300C53276 /* Node.swift */,
 				B294800A1A195C17008BE911 /* Edge.swift */,
 				AC813AB81A3FE8FC008C6031 /* Queue.swift */,
-				AC813AB41A3FC47C008C6031 /* Nodes.swift */,
+				AC813AB41A3FC47C008C6031 /* Graph.swift */,
 				AC813AB61A3FD58A008C6031 /* Temp.swift */,
 			);
 			path = MapApp;
@@ -229,7 +229,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25A30BAA1A08203200CA90DE /* map-1.jpg in Resources */,
+				B2CA05551A42126C0041EAE5 /* map-1.jpg in Resources */,
 				B2F7307F1A420B0800FDA73B /* button.png in Resources */,
 				B206B7E019F439870062304A /* LaunchScreen.xib in Resources */,
 				B206B7DD19F439870062304A /* Images.xcassets in Resources */,
@@ -253,7 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC813AB71A3FD58A008C6031 /* Temp.swift in Sources */,
-				AC813AB51A3FC47C008C6031 /* Nodes.swift in Sources */,
+				AC813AB51A3FC47C008C6031 /* Graph.swift in Sources */,
 				AC813AB91A3FE8FC008C6031 /* Queue.swift in Sources */,
 				B21B98CA1A06B41300C53276 /* Node.swift in Sources */,
 				B206B7D819F439870062304A /* ViewController.swift in Sources */,

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Nodes {
+class Graph {
     
 
     var edges: [Int: [Int]] = [
