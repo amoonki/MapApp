@@ -40,3 +40,48 @@ import Foundation
 //• Else Ignore n'
 //
 //after all n' have been considered, update V to include (state=n, f , Parent=n).
+
+public class BreadthFirstSearch
+{
+    //To keep track of the nodes we check so we know if it connects to the source.
+    //If a node was checked, then there is a path to the node from a source
+
+    
+    init(){
+    }
+    
+    func bfs(source: Node, destination: Node)
+    {
+        var checked = [Node: Bool]()
+        var loopBroken: Bool = false
+        
+        var parentsQueue = Queue()     //Create a queue
+        //We check the source passed in as a parameter and marked it as checked
+        checked[source] = true
+        parentsQueue.enqueue(source)   //We add our parent to the queue
+        
+        
+        while !parentsQueue.isEmpty()
+        {
+            //We hold the parentVertex or source in this variable
+            var parentNode = parentsQueue.dequeue()
+            
+            for child in parentNode!.neighbors
+            {
+                if (checked[child] == nil)
+                {
+                    child.parent = parentNode!
+                    checked[child] = true             //So we don't check this node again
+                    parentsQueue.enqueue(child)       //We add the next parent to the queue
+                }
+                if(child == destination){
+                    loopBroken = true
+                    break
+                }
+            }
+            if (loopBroken) {
+                break
+            }
+        }
+    }
+}

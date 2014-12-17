@@ -102,7 +102,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         super.viewDidLoad()
         
         drawExistingNodes()
-//        setUpEdges()
+        setUpEdges()
         
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -128,6 +128,11 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         //new for iOS8. We may add a description as to why we would like to add a user's description
         self.locationManager.startUpdatingLocation()
         
+        
+        for id in nodeIDdict.keys {
+            var thisNode :Node = nodeIDdict[id]!
+            thisNode.id = id
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -202,7 +207,12 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         } else {
             destNodeID = closestNodeID
             nodeIDButtonDict[destNodeID]?.backgroundColor = UIColor.redColor()
-            // findPath(srcNodeID, destNodeID)
+            let srcNode: Node = nodeIDdict[srcNodeID]!
+            let destNode: Node = nodeIDdict[destNodeID]!
+            self.bfs(srcNode, destination: destNode)
+            print("des's parent ")
+            println(destNode.parent?.point)
+            self.colorPath(destNode)
         }
         count++
         
@@ -277,18 +287,18 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         }
     }
     
-//    func setUpEdges() {
-//        for (headId, ids) in nodeIDEdgeDict {
-//            var head: Node = nodeIDdict[headId]!
-//            for tailId in ids {
-//                var tail: Node = nodeIDdict[tailId]!
-//                // will this work?
-//                head.addNeighbor(tail)
-//                nodeIDdict[headId] = head
-//            }
-//        }
-//    }
-//    
+    func setUpEdges() {
+        for (headId, ids) in nodeIDEdgeDict {
+            var head: Node = nodeIDdict[headId]!
+            for tailId in ids {
+                var tail: Node = nodeIDdict[tailId]!
+                // will this work?
+                head.addNeighbor(tail)
+                nodeIDdict[headId] = head
+            }
+        }
+    }
+    
 //    func removeNode(sender: UIButton!) {
 //        println("Removed node")
 //        let id = buttonNodeIDDict[sender]
@@ -392,6 +402,64 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
 //        }
 //    }
     
+    func bfs(source: Node, destination: Node)
+    {
+        var checked = [Node: Bool]()
+        var loopBroken: Bool = false
+        
+        var parentsQueue = Queue()     //Create a queue
+        //We check the source passed in as a parameter and marked it as checked
+        checked[source] = true
+        parentsQueue.enqueue(source)   //We add our parent to the queue
+        
+        print("infunction ")
+        
+        while !parentsQueue.isEmpty()
+        {
+            println("in while ")
+            
+            //We hold the parentVertex or source in this variable
+            var parentNode = parentsQueue.dequeue()
+            print("parentNode ")
+            println(parentNode?.point)
+            
+            print("neighbors ")
+            println(parentNode?.neighbors)
+            for child in parentNode!.neighbors
+            {
+                print("in for ")
+               
+                
+                if (checked[child] == nil)
+                {
+                    child.parent = parentNode!
+                    checked[child] = true             //So we don't check this node again
+                    parentsQueue.enqueue(child)       //We add the next parent to the queue
+                    print("visited node ")
+                    println(child.point)
+                }
+                if(child == destination){
+
+                    loopBroken = true
+                    break
+                }
+            }
+            if (loopBroken) {
+                break
+            }
+        }
+    }
+
+    func colorPath(lastNode: Node){
+        var considerNode :Node = lastNode
+        while (considerNode.parent != nil){
+            print("path ")
+            println(considerNode.point)
+            var btn: UIButton = nodeIDButtonDict[considerNode.id]!
+            btn.backgroundColor = UIColor.blueColor()
+            considerNode = considerNode.parent!
+        }
+    }
     
     func distance(p1: CGPoint, p2: CGPoint) -> CGFloat {
         // sqrt((x2 - x1)^2 + (y2 - y1)^2)
