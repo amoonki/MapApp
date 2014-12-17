@@ -17,6 +17,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     @IBOutlet weak var mapView: UIImageView!
     
     // when true, removes a node when node is clicked
+    
     // when false, adds an edge when two nodes are clicked
     var removeNodeOrAddEdge: Bool = false;
     
@@ -26,6 +27,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     var rightBoundary: CGFloat = 375
     var bottomBoundary: CGFloat = 710
     
+    var buttonImage = UIImage(named: "button.png")
+
     // get node-id dict made with dev tool
     var nodeIDdict = Nodes().nodes
     
@@ -39,9 +42,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     // dict of node ids and a list of ids of their neighbors
     var nodeIDEdgeDict = Nodes().edges
-
-    // dictionary to store an edge and its weight
-    //var edgeWeightDict = [Edge: Double]()
     
     // counter to keep track of source/dest
     var count: Int = 0
@@ -69,21 +69,13 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     
     
-    
+    //Not working
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        
-        println("Entered the function")
-        
-        //NOTE:
-        //The CLGeocoder class provides services for converting between a coordinate (specified as a latitude and longitude) and the user-friendly representation of that coordinate.
+
         longitude = manager.location.coordinate.longitude
         latitude = manager.location.coordinate.latitude
         
-//        println("Assignment happended")
-//        println(longitude)
-//        println(latitude)
         
-        //add node here as well
         var changeInLatitude: CGFloat = initialLat - 42.312521
         var changeInLongitude: CGFloat = initialLong - (-72.639737)
         
@@ -106,30 +98,19 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         drawExistingNodes()
         setUpEdges()
         
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        println("inside viewDidLoad")
-        println(longitude)
-        println(latitude)
-        
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
-        //new for iOS8. We may add a description as to why we would like to add a user's description
+        
         self.locationManager.startUpdatingLocation()
         
         let userLocation = Node(point: CGPoint(x: coordx,y:coordy))
+        
         // draws node as green rectangle on map
         let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
         button.frame = CGRect(x: userLocation.point.x-2.5, y: userLocation.point.y-2.5, width:5, height:5)
-        button.backgroundColor = UIColor.blueColor()
+        //button.backgroundColor = UIColor.blueColor()
         mapView.addSubview(button)
-        
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestWhenInUseAuthorization()
-        //new for iOS8. We may add a description as to why we would like to add a user's description
-        self.locationManager.startUpdatingLocation()
-        
         
         for id in nodeIDdict.keys {
             var thisNode :Node = nodeIDdict[id]!
@@ -193,19 +174,24 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         */
         
         
-        // prints most recent node for Tish
-        print("node clicked ")
-        println(node.point)
-        
         /* gets nearest node, performs bfs to find closest path if another node clicked */
         
         var closestNodeID :Int = findClosestNode(node)
         var closestButton: UIButton! = nodeIDButtonDict[closestNodeID]
-        closestButton.backgroundColor = UIColor.blackColor()
+        //closestButton.backgroundColor = UIColor.blackColor()
         
         if (count % 2 == 0){
             srcNodeID = closestNodeID
-            nodeIDButtonDict[srcNodeID]?.backgroundColor = UIColor.blackColor()
+            
+            for nodeID in previousPath{
+                var btn: UIButton = nodeIDButtonDict[nodeID]!
+                //btn.backgroundColor = UIColor.clearColor()
+                btn.setImage(UIImage(named:"button_transparent.png"), forState: .Normal)
+            }
+            nodeIDButtonDict[srcNodeID]?.setImage(buttonImage, forState: .Normal)
+            //nodeIDButtonDict[srcNodeID]?.backgroundColor = UIColor.blackColor()
+            
+
         } else {
             destNodeID = closestNodeID
             let srcNode: Node = nodeIDdict[srcNodeID]!
@@ -214,13 +200,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         }
         count++
         
-        
-        println()
-        print("closest node ")
+     
         let n: Node = nodeIDdict[closestNodeID] as Node!
-        print(n.point)
-        println()
-        
         
         // resets previously clicked node
         previouslyClickedNode = nil;
@@ -229,12 +210,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     func findAndColorPath(srcNode: Node, destNode:Node){
         self.bfs(srcNode, destination: destNode)
         srcNode.parent = nil
-        println(destNode.parent?.point)
-        for nodeID in previousPath{
-            var btn: UIButton = nodeIDButtonDict[nodeID]!
-            btn.backgroundColor = UIColor.greenColor()
-        }
-        
         self.colorPath(destNode)
 
     }
@@ -277,7 +252,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         // draws node as green rectangle on map
         let button = UIButton.buttonWithType(UIButtonType.System) as UIButton
         button.frame = CGRect(x: node.point.x-1.25, y: node.point.y-1.25, width:2.5, height:2.5)
-        button.backgroundColor = UIColor.greenColor()
+    
+        //button.backgroundColor = UIColor.greenColor()
         
         /* dev tool disabled
         // clicking on a node either removes it or adds an edge to prev clicked node
@@ -289,7 +265,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         */
         
         // for debugging
-        button.addTarget(self, action: "trackClickedNode:", forControlEvents: UIControlEvents.TouchUpInside)
+        //button.addTarget(self, action: "trackClickedNode:", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "printID:", forControlEvents: UIControlEvents.TouchUpInside)
         
         mapView.addSubview(button)
         
@@ -302,6 +279,10 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         for i in nodeIDdict.keys {
             createButtonForNode(nodeIDdict[i]!,id: i)
         }
+    }
+    
+    func printID(sender: UIButton!) {
+        
     }
     
     func setUpEdges() {
@@ -319,7 +300,15 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     func trackClickedNode(sender: UIButton!){
         if(count % 2 == 0){
             srcNodeID = buttonNodeIDDict[sender]!
-            sender.backgroundColor = UIColor.blackColor()
+            
+            for nodeID in previousPath{
+                var btn: UIButton = nodeIDButtonDict[nodeID]!
+                //btn.backgroundColor = UIColor.clearColor()
+                btn.setImage(UIImage(named:"button_transparent.png"), forState: .Normal)
+            }
+            
+            //sender.backgroundColor = UIColor.blackColor()
+            sender.setImage(buttonImage, forState: .Normal)
         }
         else {
             destNodeID = buttonNodeIDDict[sender]!
@@ -330,12 +319,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         count++
     }
     
-    func printID(sender: UIButton!) {
-        println(buttonNodeIDDict[sender]!)
-    }
-    
+    //dev tool
     func removeNode(sender: UIButton!) {
-        println("Removed node")
         let id = buttonNodeIDDict[sender]
         let node = nodeIDdict[id!]
         if (node != nil){
@@ -345,13 +330,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         sender.removeFromSuperview()
     }
     
-    
+    //dev tool
     func createEdge(sender: UIButton!) {
-        /*
-        for (id, node) in nodeIDdict {
-            println("\(id), \(node.neighbors)")
-        }
-        */
         
         // if no node previously clicked, store clicked node
         if (previouslyClickedNode == nil) {
@@ -445,31 +425,21 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         checked[source] = true
         parentsQueue.enqueue(source)   //We add our parent to the queue
         
-        print("infunction ")
         
         while !parentsQueue.isEmpty()
         {
-            println("in while ")
             
             //We hold the parentVertex or source in this variable
             var parentNode = parentsQueue.dequeue()
-            print("parentNode ")
-            println(parentNode?.point)
-            
-            print("neighbors ")
-            println(parentNode?.neighbors)
+
             for child in parentNode!.neighbors
             {
-                print("in for ")
-               
-                
                 if (checked[child] == nil)
                 {
                     child.parent = parentNode!
                     checked[child] = true             //So we don't check this node again
                     parentsQueue.enqueue(child)       //We add the next parent to the queue
-                    print("visited node ")
-                    println(child.point)
+                    
                 }
                 if(child == destination){
 
@@ -487,14 +457,14 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         previousPath = [Int]()
         var considerNode :Node = lastNode
         do{
-            print("path ")
-            println(considerNode.point)
             var btn: UIButton = nodeIDButtonDict[considerNode.id]!
-            btn.backgroundColor = UIColor.blueColor()
+            //btn.backgroundColor = UIColor.blueColor()
+            btn.setImage(buttonImage, forState: .Normal)
             previousPath.append(considerNode.id)
             considerNode = considerNode.parent!
         } while (considerNode.parent != nil)
-        (nodeIDButtonDict[considerNode.id]!).backgroundColor = UIColor.blueColor()
+        //(nodeIDButtonDict[considerNode.id]!).backgroundColor = UIColor.blueColor()
+        (nodeIDButtonDict[considerNode.id]!).setImage(buttonImage, forState: .Normal)
         previousPath.append(considerNode.id)
     }
     
